@@ -38,6 +38,17 @@ pipeline {
         stage('Checkout') {
             steps {
                 deleteDir()
+                script {
+                    def prepareGit = '''git init
+git config --local filter.lfs.smudge "git-lfs smudge --skip"
+git config --local filter.lfs.process "git-lfs filter-process --skip"
+'''
+                    if (isUnix()) {
+                        sh prepareGit
+                    } else {
+                        bat prepareGit
+                    }
+                }
                 checkout scm
             }
         }
