@@ -9,6 +9,12 @@ A small fixture for checking the **Git LFS pull after checkout** behaviour in a 
 3. Use an agent with Git and Git LFS installed and network access to GitHub.
 4. Scan the repository. Both `main` and `feature/lfs-check` contain the same test.
 
+## Agent pools
+
+For Sfera installations that require an agent pool, use `Jenkinsfile.sfera` as the script path. It adds the `LFS_TEST_AGENT_POOL` build parameter; the LFS checks are identical.
+
+The initial run creates the parameter and may stop because no pool has been selected yet. Start a parameterized build and select an available pool with Git LFS installed. The selected value becomes the default for subsequent runs. No environment-specific pool names are stored in this repository.
+
 ## Expected results
 
 - With the LFS behaviour disabled, checkout leaves LFS pointer files and the verification stage fails.
