@@ -1,13 +1,20 @@
-pipeline {
-    agent any
-    parameters {
+properties([
+    parameters([
         agentPoolParameter(
             name: 'LFS_TEST_AGENT_POOL',
             defaultValue: params.LFS_TEST_AGENT_POOL ?: '',
             allowPublicAgents: false,
             description: 'Select an agent pool with Git and Git LFS installed.'
         )
-    }
+    ])
+])
+
+if (!params.LFS_TEST_AGENT_POOL) {
+    error('Agent pool parameter created. Run Build with Parameters and select LFS_TEST_AGENT_POOL.')
+}
+
+pipeline {
+    agent any
     options {
         skipDefaultCheckout(true)
         disableConcurrentBuilds()
